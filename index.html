@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LKPD JavaScript — Mengenal dan Menggunakan Variable</title>
+<style>
+:root{--ink:#172033;--muted:#667085;--line:#e5e9f0;--paper:#fff;--bg:#f4f6fa;--accent:#3157d5;--accent-soft:#eef2ff;--green:#13795b;--code:#101828}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{background:linear-gradient(135deg,#15254b,#3157d5);color:white;padding:48px 20px 42px} .hero{max-width:1000px;margin:auto}
+.eyebrow{text-transform:uppercase;letter-spacing:.13em;font-size:.76rem;font-weight:800;opacity:.8}
+h1{font-size:clamp(2rem,5vw,3.3rem);line-height:1.12;margin:12px 0}header p{max-width:680px;color:#e2e8ff;margin:0}
+.pill{display:inline-block;border:1px solid #ffffff55;border-radius:999px;padding:5px 12px;font-size:.85rem;margin:18px 7px 0 0}
+.layout{max-width:1000px;margin:28px auto;padding:0 16px;display:grid;grid-template-columns:230px minmax(0,1fr);gap:22px}
+nav{position:sticky;top:16px;align-self:start;background:white;border:1px solid var(--line);border-radius:16px;padding:18px;max-height:calc(100vh - 32px);overflow:auto}
+nav strong{display:block;margin-bottom:10px}nav a{display:block;color:#475467;text-decoration:none;font-size:.9rem;padding:6px 8px;border-radius:7px}nav a:hover{background:var(--accent-soft);color:var(--accent)}
+main{min-width:0}.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:clamp(18px,3vw,30px);margin-bottom:18px;box-shadow:0 3px 12px #18223006}
+h2{font-size:1.35rem;line-height:1.3;margin:0 0 15px}h3{font-size:1.05rem;margin:22px 0 8px}p{margin:8px 0 13px}.muted{color:var(--muted)}.tag{font-size:.78rem;color:var(--accent);font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+label{display:block;font-weight:650;margin:12px 0 5px}input[type=text],input[type=number],input[type=date],textarea,select{width:100%;border:1px solid #d0d5dd;border-radius:9px;padding:11px 12px;font:inherit;background:#fff;color:var(--ink)}textarea{min-height:86px;resize:vertical}input:focus,textarea:focus,select:focus{outline:3px solid #3157d522;border-color:var(--accent)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--code);color:#e6edf7;padding:16px;border-radius:10px;font: .9rem/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;overflow:auto}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:#f2f4f7;padding:2px 5px;border-radius:4px}
+table{width:100%;border-collapse:collapse;margin:12px 0}th,td{border:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top}th{background:#f8f9fc;font-size:.9rem}
+.note{border-left:4px solid var(--accent);background:var(--accent-soft);padding:12px 15px;border-radius:0 8px 8px 0;margin:14px 0}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}.btn{border:0;border-radius:9px;padding:11px 16px;font:inherit;font-weight:700;cursor:pointer;background:var(--accent);color:#fff}.btn.secondary{background:#e9edf5;color:#26324b}.btn:hover{filter:brightness(.96)}
+.photo-zone{border:2px dashed #b7c3dd;border-radius:12px;padding:20px;text-align:center;background:#fafbff}.photo-zone input{max-width:100%;margin:10px auto}.previews{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:14px}.preview{border:1px solid var(--line);padding:8px;border-radius:10px;background:white}.preview img{width:100%;height:150px;object-fit:contain;background:#f2f4f7;border-radius:6px}.preview button{margin-top:6px;background:#fff0f0;color:#b42318;border:1px solid #fecdca;border-radius:6px;padding:5px 8px;cursor:pointer}
+.checkline{display:flex;gap:9px;align-items:flex-start;margin:8px 0}.checkline input{margin-top:7px}.small{font-size:.88rem;color:var(--muted)}footer{text-align:center;color:var(--muted);padding:24px 16px 40px}
+@media(max-width:760px){.layout{display:block;margin-top:16px}nav{position:static;max-height:none;margin-bottom:16px}nav .navlinks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px}.grid2{grid-template-columns:1fr}header{padding:36px 18px}}
+@media print{body{background:white;font-size:11pt}header{padding:24px;background:#fff!important;color:#111;border-bottom:2px solid #222}header p{color:#333}.layout{display:block;max-width:none;margin:0;padding:0}nav,.actions,.photo-zone input,.preview button{display:none!important}.card{box-shadow:none;break-inside:avoid;border:1px solid #bbb;padding:16px;margin:12px 0}.photo-zone{border:1px solid #aaa}.previews{grid-template-columns:repeat(3,1fr)}textarea,input[type=text],input[type=number]{border:1px solid #999}a{color:#111;text-decoration:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="hero">
+    <div class="eyebrow">Lembar Kerja Peserta Didik · Dasar-Dasar PPLG</div>
+    <h1>JavaScript: Mengenal dan Menggunakan Variable</h1>
+    <p>LKPD interaktif untuk mengamati, bereksperimen, menulis kode, memperbaiki error, dan merefleksikan pembelajaran.</p>
+    <span class="pill">Alokasi waktu: 2 × 45 menit</span><span class="pill">Problem Based Learning / Discovery Learning</span>
+  </div>
+</header>
+<div class="layout">
+<nav aria-label="Navigasi LKPD"><strong>Daftar Isi</strong><div class="navlinks">
+<a href="#identitas">Identitas</a><a href="#tujuan">Tujuan & petunjuk</a><a href="#apersepsi">Apersepsi</a><a href="#aktivitas1">Aktivitas 1–3</a><a href="#aktivitas4">Aktivitas 4–6</a><a href="#aktivitas7">Aktivitas 7–8</a><a href="#tantangan">Tantangan</a><a href="#debugging">Debugging</a><a href="#refleksi">Refleksi</a><a href="#tugas">Tugas individu</a><a href="#penilaian">Penilaian</a><a href="#foto">Foto tugas</a>
+</div></nav>
+<main>
+<section class="card" id="identitas"><div class="tag">Data peserta didik</div><h2>Identitas Pembelajaran</h2>
+<div class="grid2"><div><label for="namaSiswa">Nama</label><input id="namaSiswa" type="text" placeholder="Nama lengkap" value="Muhammad Raihan Qori Kusumah"></div><div><label for="kelasSiswa">Kelas</label><input id="kelasSiswa" type="text" placeholder="Contoh: XI RPL 1" value="X PPLG 2"></div><div><label for="kelompok">Kelompok</label><input id="kelompok" type="text" placeholder="Nama/nomor kelompok" value="-"></div><div><label for="tanggal">Tanggal</label><input id="tanggal" type="date" value="2026-10-13"></div></div>
+<p class="small">Mata pelajaran: Dasar-Dasar Pengembangan Perangkat Lunak dan Gim · Metode: eksplorasi, praktik, diskusi, tanya jawab, refleksi.</p></section>
+<section class="card" id="tujuan"><div class="tag">Panduan</div><h2>Tujuan Pembelajaran</h2><p>Setelah menyelesaikan LKPD, peserta didik diharapkan mampu:</p>
+<ul><li>Menjelaskan pengertian dan fungsi variable dengan bahasa sendiri.</li><li>Membedakan <code>let</code> dan <code>const</code> secara sederhana.</li><li>Membuat variable JavaScript dan menamai variable sesuai aturan.</li><li>Menyimpan data teks dan angka, lalu menampilkan nilainya dengan <code>console.log()</code>.</li><li>Membuat program sederhana serta menemukan dan memperbaiki kesalahan penggunaan variable.</li></ul>
+<h3>Petunjuk keselamatan dan kerja</h3><ul><li>Gunakan komputer/laptop dengan hati-hati dan simpan pekerjaan secara berkala.</li><li>Jangan menghapus file milik teman atau menyalin kode tanpa memahami fungsinya.</li><li>Jika muncul error, baca pesan error dan diskusikan penyebabnya.</li><li>Setiap anggota kelompok harus memahami hasil pekerjaan kelompok.</li></ul></section>
+<section class="card" id="apersepsi"><div class="tag">Pemantik</div><h2>A. Apersepsi</h2><p>Bayangkan kamu sedang membuat aplikasi data siswa. Program perlu menyimpan nama siswa, kelas, umur, nilai, dan jurusan.</p><pre>let nama = "Budi";
+let kelas = "XI RPL 1";
+let umur = 16;
+let nilai = 85;</pre><label>Menurutmu, bagaimana cara menyimpan informasi tersebut di dalam program?</label><textarea>Informasi tersebut disimpan dengan membuat variable di dalam program. Kita menentukan nama variable terlebih dahulu, lalu memberikan nilai (value) menggunakan tanda sama dengan (=).</textarea> </section>
+<section class="card" id="aktivitas1"><div class="tag">Mengamati · Memahami · Praktik</div><h2>B. Aktivitas 1–3: Mengenal Variable</h2>
+<h3>Aktivitas 1 — Mengamati</h3><p>Perhatikan kode berikut, lalu jalankan menggunakan browser. Buka Developer Tools melalui klik kanan → Inspect → Console.</p><pre>let nama = "Budi";
+let umur = 16;
+let nilai = 85;
+console.log(nama);
+console.log(umur);
+console.log(nilai);</pre>
+  <label>1. Apa yang ditampilkan pada Console?</label><textarea> Budi
+ 16
+ 85 </textarea> 
+ <div class="foto-tugas">
+  <img
+    src="screenshot tugas/ss console.png"
+    alt="Foto tugas JavaScript"
+    style="max-width:100%; height:auto; border-radius:10px;"
+  >
+</div>
+  <label>2. Menurutmu, apa fungsi <code>nama</code>, <code>umur</code>, dan <code>nilai</code>?</label>
+  <textarea>Sebagai wadah atau tempat menyimpan data teks dan angka agar bisa dipanggil dan ditampilkan kembali.</textarea>
+    <label>3. Apa yang terjadi jika <code>console.log(nama)</code> dijalankan?</label>
+    <textarea>Console akan menampilkan teks "Budi".</textarea>
+      <label>4. Menurut dugaanmu, apa yang dimaksud dengan variable?</label>
+      <textarea>Variable adalah tempat atau wadah untuk menyimpan data di dalam memori komputer yang nilainya dapat digunakan atau diubah kembali oleh program.</textarea>
+<h3>Aktivitas 2 — Apa itu variable?</h3><p>Variable dapat dianggap sebagai tempat untuk menyimpan sebuah data agar data tersebut dapat digunakan kembali oleh program.</p><pre>let nama = "Andi";</pre><table><thead><tr><th>Bagian</th><th>Fungsi</th></tr></thead><tbody><tr><td><code>let</code></td><td>Membuat variable</td></tr><tr><td><code>nama</code></td><td>Nama variable</td></tr><tr><td><code>=</code></td><td>Memberikan nilai</td></tr><tr><td><code>"Andi"</code></td><td>Nilai yang disimpan</td></tr></tbody></table>
+    <h3>Aktivitas 3 — Praktik membuat variable</h3><p>Buat file bernama <code>variable.html</code>, masukkan kode berikut, lalu buka file di browser dan periksa Console.</p><pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Belajar Variable&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;script&gt;
+let nama = "Budi";
+let kelas = "XI RPL 1";
+let umur = 16;
+console.log(nama);
+console.log(kelas);
+console.log(umur);
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+  <label>Hasil pengamatan — Nama</label><input type="text" value="Budi">
+  <label>Kelas</label><input type="text" value="XI RPL 1">
+  <label>Umur</label><input type="number" value="16">
+<div class="foto-tugas">
+  <img
+    src="screenshot tugas/ss console 2.png"
+    alt="Foto tugas JavaScript"
+    style="max-width:100%; height:auto; border-radius:10px;"
+  >
+</div>
+</section>
+<section class="card" id="aktivitas4"><div class="tag">Eksperimen</div><h2>C. Aktivitas 4–6: Mengubah Data dan Jenis Variable</h2>
+<h3>Aktivitas 4 — Eksperimen</h3><p>Ubah nama, kelas, dan umur pada program sebelumnya sesuai data kamu.</p>
+<label>1. Apakah hasil pada Console berubah?</label>
+<div class="foto-tugas">
+  <img
+    src="screenshot tugas/ss console diubah.png"
+    alt="Foto tugas JavaScript"
+    style="max-width:100%; height:auto; border-radius:10px;"
+  >
+</div>
+<textarea>Ya, berubah</textarea> 
+  <label>2. Bagian kode mana yang kamu ubah?</label>
+  <textarea>let nama = "Qori";
+let kelas = "X PPL 2";
+let umur = 16;</textarea>
+    <label>3. Mengapa program dapat menampilkan data yang baru?</label>
+    <textarea>Karena nilai yang disimpan di dalam variable telah diperbarui, sehingga saat console.log() dipanggil, program akan mengambil nilai terbaru dari variable tersebut.</textarea>
+<h3>Aktivitas 5 — Berbagai jenis data</h3><p>Identifikasi jenis data dari setiap variable.</p><table><thead><tr><th>Variable</th><th>Nilai</th><th>Jenis data</th></tr></thead>
+  <tbody><tr><td>nama</td><td>"Andi"</td><td><input type="text" placeholder="Jawaban" value="String"></td></tr>
+    <tr><td>umur</td><td>17</td><td><input type="text" placeholder="Jawaban" value="Number"></td></tr>
+    <tr><td>tinggi</td><td>170</td><td><input type="text" placeholder="Jawaban" value="Number"></td></tr>
+    <tr><td>aktif</td><td>true</td><td><input type="text" placeholder="Jawaban" value="boolean T/F"></td></tr></tbody></table>
+      <label>Data yang ditulis menggunakan tanda kutip seperti "Andi" merupakan data...</label><textarea>String (Teks)</textarea>
+      <label>Sedangkan 17 merupakan data...</label><textarea>Number(Angka)</textarea>
+<h3>Aktivitas 6 — Mengenal <code>let</code> dan <code>const</code></h3><pre>let umur = 16;
+umur = 17;
+console.log(umur);</pre>
+  <label>Hasil yang muncul</label><textarea> 17 </textarea> 
+  <div class="foto-tugas">
+  <img
+    src="screenshot tugas/aktivitas6.png"
+    alt="Foto tugas JavaScript"
+    style="max-width:100%; height:auto; border-radius:10px;"
+  >
+</div>
+  <pre>const nama = "Budi";
+nama = "Andi";
+console.log(nama);</pre>
+  <label>Apa yang terjadi pada kode kedua?</label><textarea>Terjadi Error (TypeError: Assignment to constant variable.) karena nilai pada const tidak boleh diubah.</textarea> <div class="foto-tugas">
+  <img
+    src="screenshot tugas/aktivitas6.2.png"
+    alt="Foto tugas JavaScript"
+    style="max-width:100%; height:auto; border-radius:10px;"
+  >
+</div>
+  <table><thead><tr><th>Keyword</th><th>Nilai dapat diubah?</th><th>Kegunaan sederhana</th></tr></thead>
+    <tbody><tr><td>let</td><td><input type="text" value="Ya"></td><td><input type="text" value="Digunakan untuk data yang nilainya dapat berubah-ubah"></td></tr>
+      <tr><td>const</td><td><input type="text" value="Tidak"></td><td><input type="text" value="Digunakan untuk data yang nilainya tetap/konstan dan tidak boleh diubah."></td></tr></tbody></table>
+      <div class="note"><b>Ingat:</b> gunakan <code>let</code> untuk data yang masih mungkin berubah. Gunakan <code>const</code> untuk data yang tidak perlu diubah.</div></section>
+<section class="card" id="aktivitas7"><div class="tag">Aturan penamaan</div>
+  <h2>D. Aktivitas 7–8: Nama Variable yang Benar</h2>
+  <p>Contoh nama yang diperbolehkan: <code>nama</code>, <code>namaSiswa</code>, <code>nama_siswa</code>, <code>nilai1</code>.</p><p>Contoh yang tidak diperbolehkan: <code>1nama</code>, <code>nama siswa</code>, <code>nama-siswa</code>. JavaScript membedakan huruf besar dan kecil.</p>
+<table><thead><tr><th>No.</th><th>Nama variable</th><th>Benar / Salah</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><code>nama</code></td><td><option>Benar</option></td></tr>
+      <tr><td>2</td><td><code>namaSiswa</code></td><td><option>Benar</option></td></tr>
+        <tr><td>3</td><td><code>nama_siswa</code></td><td><option>Benar</option></td></tr>
+          <tr><td>4</td><td><code>2nama</code></td><td><option>Salah</option></td></tr>
+            <tr><td>5</td><td><code>nama siswa</code></td><td><option>Salah</option></td></tr>
+              <tr><td>6</td><td><code>nilaiAkhir</code></td><td><option>Benar</option></td></tr>
+                <tr><td>7</td><td><code>nilai1</code></td><td><option>Benar</option></td></tr>
+                  <tr><td>8</td><td><code>nilai-akhir</code></td><td><option>Salah</option></td></tr>
+                    <tr><td>9</td><td><code>Alamat</code></td><td><option>Benar</option></td></tr>
+                      <tr><td>10</td><td><code>alamatSiswa</code></td><td><option>Benar</option></td></tr>
+</tbody></table>
+<h3>Perbaiki nama variable yang salah</h3>
+  <label><code>2nama</code> menjadi</label><input type="text" value="nama2 atau namadua">
+  <label><code>nama siswa</code> menjadi</label><input type="text" value="namaSiswa">
+  <label><code>nilai-akhir</code> menjadi</label><input type="text" value="nilaiAkhir">
+</section>
+<section class="card" id="tantangan">
+  <div class="tag">Latihan mandiri</div>
+  <h2>E. Aktivitas 9–10: Tantangan Data</h2>
+<h3>Aktivitas 9 — Tantangan data diri</h3>
+  <p>Buat minimal 5 variable untuk menyimpan nama, kelas, jurusan, umur, dan hobi. Tampilkan semua data menggunakan <code>console.log()</code>.</p><label>Tuliskan kode program kamu</label><textarea style="min-height:180px" placeholder="// Tuliskan kode kamu di sini"> 
+  let nama = "Qori";
+  let kelas = "X PPLG 2";
+  let jurusan = "Rekayasa Perangkat Lunak";
+  let umur = 16;
+  let hobi = "Mendengarkan Musik";
+  console.log(nama);
+  console.log(kelas);
+  console.log(jurusan);
+  console.log(umur);
+  console.log(hobi);
+</textarea> <div class="foto-tugas">
+  <img
+    src="screenshot tugas/aktivitas9.png"
+    alt="Foto tugas JavaScript"
+    style="max-width:100%; height:auto; border-radius:10px;"
+  >
+</div>
+<h3>Aktivitas 10 — Tantangan level 2</h3>
+  <p>Buat program data siswa yang menyimpan nama siswa, nilai Bahasa Indonesia, nilai Matematika, dan nilai Produktif.</p>
+<pre>let nama = "Andi";
+let bahasaIndonesia = 80;
+let matematika = 85;
+let produktif = 90;
+console.log(nama);
+console.log(bahasaIndonesia);
+console.log(matematika);
+console.log(produktif);</pre>
+<label>Kode program versi kamu</label><textarea style="min-height:180px">
+  let nama = "Qori";
+  let bahasaIndonesia = 93;
+  let matematika = 91;
+  let produktif = 93;
+  console.log(nama);
+  console.log(bahasaIndonesia);
+  console.log(matematika);
+  console.log(produktif);
+</textarea><div class="foto-tugas">
+  <img
+    src="screenshot tugas/aktivitas10.png"
+    alt="Foto tugas JavaScript"
+    style="max-width:100%; height:auto; border-radius:10px;"
+  >
+</div>
+<label>1. Berapa variable yang kamu buat?</label><input type="text" value="4">
+<label>2. Mana variable yang menyimpan teks?</label><textarea>nama</textarea>
+<label>3. Mana variable yang menyimpan angka?</label><textarea>bahasaIndonesia, matematika, produktif</textarea>
+</section>
+<section class="card" id="debugging"><div class="tag">Temukan dan perbaiki error</div>
+  <h2>F. Aktivitas 11–12: Debugging dan Challenge</h2>
+  <h3>Aktivitas 11 — Debugging</h3>
+  <p>Program berikut memiliki beberapa kesalahan. Temukan kesalahannya dan tulis program yang sudah diperbaiki.</p>
+<pre>
+  let nama siswa = "Budi";
+  let umur = 16;
+  let 2kelas = "XI RPL";
+  console.log(nama siswa);
+  console.log(umur);
+  console.log(2kelas);
+</pre>
+<label>Program yang sudah diperbaiki</label>
+<textarea style="min-height:180px"> 
+  let namaSiswa = "Budi";
+  let umur = 16;
+  let kelas2 = "XI RPL";
+
+  console.log(namaSiswa);
+  console.log(umur);
+  console.log(kelas2);
+</textarea>
+  <label>Apa saja kesalahan yang kamu temukan?</label>
+  <textarea>1. Penamaan `nama siswa` menggunakan spasi
+  2. Penamaan `2kelas` diawali angka
+  3. Pemanggilan di `console.log()`
+  </textarea>
+<h3>Aktivitas 12 — Challenge “Profil Siswa”</h3>
+<p>Buat program yang menyimpan nama, kelas, jurusan, umur, kota, hobi, dan cita-cita. Tampilkan semuanya menggunakan <code>console.log()</code>, lalu tambahkan minimal 2 variable baru.</p>
+<label>Kode program Profil Siswa</label>
+<textarea style="min-height:200px">
+let nama2 = "Qori";
+let umur2 = 16;
+let Kelas2 = "X PPLG 2";
+let Jurusan2 = "Rekayasa Perangkat Lunak"
+let Kota2 = "Garut Kota"
+let Hobi2 = "Menonton Anime"
+let citacita2 = "IT Support"
+let tahunlahir = "27 Agustus 2010"
+console.log(nama2);
+console.log(umur2);
+console.log(tahunlahir);
+console.log(Kelas2);
+console.log(Jurusan2);
+console.log(Kota2);
+console.log(Hobi2);
+console.log(citacita2);
+</textarea> 
+<div class="foto-tugas">
+  <img
+    src="screenshot tugas/aktivitas12.png"
+    alt="Foto tugas JavaScript"
+    style="max-width:100%; height:auto; border-radius:10px;"
+  >
+</div>
+<label>Variable tambahan</label>
+<textarea>
+  1. Tahun lahir
+  2. Cita-cita
+</textarea>
+</section>
+<section class="card" id="refleksi">
+  <div class="tag">Diskusi dan refleksi</div>
+  <h2>G. Aktivitas 13 dan Refleksi</h2>
+  <h3>Think Pair Share</h3>
+  <label>Think — Mengapa programmer membutuhkan variable?</label><textarea>Agar programmer dapat menyimpan, mengelola, dan memproses data secara dinamis serta dapat menggunakan data tersebut berulang kali tanpa menulis ulang nilainya</textarea>
+  <label>Pair — Apakah jawabanmu sama dengan teman?</label><select><option value="">Pilih…</option><option>Ya</option><option>Tidak</option></select>
+  <label>Jika berbeda, apa perbedaannya?</label><textarea></textarea>
+  <label>Share — Kesimpulan kelompok</label><textarea>Variable sangat penting dalam pemrograman untuk membuat aplikasi yang dinamis dan efisien</textarea>
+<h3>Refleksi pemahaman</h3>
+<p>Pilih tingkat pemahamanmu pada setiap pernyataan.</p>
+<table><thead><tr><th>Pernyataan</th><th>Belum paham</th><th>Mulai paham</th><th>Paham</th></tr></thead><tbody>
+<tr><td>Saya memahami pengertian variable</td><td><input type="radio" name="ref1" value="Belum paham" aria-label="Belum paham"> </td><td><input type="radio" name="ref1" value="Mulai paham" aria-label="Mulai paham"></td><td><input type="radio" name="ref1" value="Paham" checked ></td></tr><tr><td>Saya dapat membuat variable dengan let</td><td><input type="radio" name="ref2" value="Belum paham" aria-label="Belum paham"></td><td><input type="radio" name="ref2" value="Mulai paham" aria-label="Mulai paham"></td><td><input type="radio" name="ref2" value="Paham" checked></td></tr><tr><td>Saya memahami penggunaan const</td><td><input type="radio" name="ref3" value="Belum paham" aria-label="Belum paham"></td><td><input type="radio" name="ref3" value="Mulai paham" aria-label="Mulai paham"></td><td><input type="radio" name="ref3" value="Paham" checked></td></tr><tr><td>Saya dapat menyimpan data ke dalam variable</td><td><input type="radio" name="ref4" value="Belum paham" aria-label="Belum paham"></td><td><input type="radio" name="ref4" value="Mulai paham" aria-label="Mulai paham"></td><td><input type="radio" name="ref4" value="Paham" checked></td></tr><tr><td>Saya dapat menampilkan variable dengan console.log()</td><td><input type="radio" name="ref5" value="Belum paham" aria-label="Belum paham"></td><td><input type="radio" name="ref5" value="Mulai paham" aria-label="Mulai paham"></td><td><input type="radio" name="ref5" value="Paham" checked></td></tr><tr><td>Saya dapat memberikan nama variable dengan benar</td><td><input type="radio" name="ref6" value="Belum paham" aria-label="Belum paham"></td><td><input type="radio" name="ref6" value="Mulai paham" aria-label="Mulai paham"></td><td><input type="radio" name="ref6" value="Paham" checked></td></tr><tr><td>Saya dapat menemukan kesalahan variable</td><td><input type="radio" name="ref7" value="Belum paham" aria-label="Belum paham"></td><td><input type="radio" name="ref7" value="Mulai paham" aria-label="Mulai paham"></td><td><input type="radio" name="ref7" value="Paham" checked></td></tr>
+</tbody></table>
+<h3>Refleksi 3–2–1</h3>
+<label>3 hal yang saya pelajari</label>
+  <textarea>
+    1. Cara membuat variable dengan `let` dan `const`.
+    2. Aturan penamaan variable yang benar di JavaScript.
+    3. Perbedaan jenis data teks (String) dan angka (Number)
+  </textarea>
+<label>2 hal yang masih membingungkan</label>
+<textarea>
+  1. Kapan waktu terbaik menggunakan `let` dibanding `const` pada proyek besar.
+  2. Penerapan jenis data boolean dalam kondisi program
+</textarea>
+<label>1 hal yang ingin saya coba</label>
+<textarea>
+  1. Membuat kalkulator sederhana dengan variable di JavaScript.
+</textarea>
+<h3>Kesimpulan</h3>
+    <label>Variable adalah…</label>
+      <textarea>
+      Wadah atau tempat di dalam memori komputer untuk menyimpan data
+      </textarea>
+  <label><code>let</code> digunakan untuk…</label>
+      <textarea>
+        Declaring variable yang nilainya dapat diubah kembali
+      </textarea>
+  <label><code>const</code> digunakan untuk…</label>
+      <textarea>
+      Declaring variable yang nilainya bersifat tetap/konstan dan tidak dapat diubah
+      </textarea>
+  <label>Untuk menampilkan isi variable ke Console kita dapat menggunakan…</label>
+      <textarea>
+      console.log()
+      </textarea>
+</section>
+<section class="card" id="tugas"><div class="tag">Tugas individu</div>
+  <h2>H. Tugas: Data Produk Sederhana</h2>
+  <p>Buat program bertema “Data Produk Sederhana” dengan minimal 6 variable: nama produk, kategori, harga, stok, merek, dan status produk.</p>
+<pre>
+  const namaProduk = "Keyboard";
+  const kategori = "Perangkat Komputer";
+  const harga = 150000;
+  let stok = 10;
+  const merek = "ABC";
+  const tersedia = true;
+  console.log(namaProduk);
+  console.log(kategori);
+  console.log(harga);
+  console.log(stok);
+  console.log(merek);
+  console.log(tersedia);
+</pre>
+<h3>Ketentuan</h3>
+  <ul><li>Minimal 6 variable.</li>
+  <li>Gunakan <code>let</code> dan <code>const</code>.</li>
+  <li>Gunakan nama variable yang benar.</li>
+  <li>Gunakan data teks dan angka.</li>
+  <li>Program dapat dijalankan tanpa error.</li>
+  <li>Mampu menjelaskan fungsi setiap variable.</li>
+  </ul><label>Kode tugas individu</label>
+  <textarea style="min-height:220px" placeholder="// Tulis program Data Produk Sederhana di sini">
+    const namaProduk = "Mouse Wireless";
+    const kategori = "Aksesori Komputer";
+    const harga = 125000;
+    let stok = 15;
+    const merek = "Logitech";
+    let tersedia = true;
+
+    console.log(namaProduk);
+    console.log(kategori);
+    console.log(harga);
+    console.log(stok);
+    console.log(merek);
+    console.log(tersedia);
+  </textarea>
+  <div class="foto-tugas">
+    <img src="screenshot tugas/data produk.png" widht="100%">
+  </div>
+<h3>Exit ticket</h3>
+<label>1. Apa itu variable?</label>
+  <textarea>
+    Tempat/wadah di dalam program yang berfungsi untuk menyimpan data.
+  </textarea>
+  <label>2. Apa perbedaan <code>let</code> dan <code>const</code>?</label>
+    <textarea>
+      Tempat/wadah di dalam program yang berfungsi untuk menyimpan data.
+    </textarea>
+<label>3. Tuliskan satu contoh variable JavaScript.</label>
+  <textarea>
+    let umur = 17; atau const nama = "Asep";
+  </textarea>
+<div class="note"><b>Pesan untuk peserta didik:</b> Jangan takut ketika program menghasilkan error. Error bukan berarti kamu gagal. Error adalah petunjuk bahwa programmu perlu diperbaiki. Programmer yang baik mampu mencari dan memperbaiki error.</div></section>
+<section class="card" id="penilaian">
+  <div class="tag">Rubrik</div>
+  <h2>I. Penilaian</h2>
+  <h3>Pengetahuan (maksimal 80 poin)</h3>
+  <table><thead><tr><th>Indikator</th><th>Skor</th></tr></thead>
+    <tbody><tr><td>Menjelaskan pengertian variable</td>
+    <td>-</td></tr>
+        <tr><td>Menjelaskan fungsi variable</td>
+        <td>-</td></tr>
+            <tr><td>Membedakan let dan const</td>
+            <td>-</td></tr>
+              <tr><td>Menjelaskan aturan penamaan variable</td>
+              <td>-</td></tr>
+                <tr><td>Menjelaskan jenis data sederhana</td>
+                <td>-</td></tr>
+                  <tr><th>Total</th><th>-</th>
+  </tr></tbody></table>
+<h3>Rubrik hasil program</h3><table><thead><tr><th>Kriteria</th><th>Bobot</th></tr></thead><tbody><tr><td>Program dapat dijalankan</td><td>20%</td></tr><tr><td>Penggunaan variable benar</td><td>20%</td></tr><tr><td>Penamaan variable benar</td><td>15%</td></tr><tr><td>Penggunaan let dan const tepat</td><td>15%</td></tr><tr><td>Data yang digunakan sesuai</td><td>10%</td></tr><tr><td>Output berhasil ditampilkan</td><td>10%</td></tr><tr><td>Kerapian kode</td><td>10%</td></tr><tr><th>Total</th><th>100%</th></tr></tbody></table><p class="small">Skala keterampilan dan sikap: 4 = Sangat Baik, 3 = Baik, 2 = Cukup, 1 = Perlu Bimbingan. Aspek keterampilan meliputi pembuatan variable, penamaan variable, penggunaan let/const, menampilkan data, ketepatan kode, dan debugging. Sikap meliputi kedisiplinan, kerja sama, tanggung jawab, keaktifan, dan ketelitian.</p></section>
+
+<div class="actions"><button class="btn" onclick="window.print()">Cetak / Simpan sebagai PDF</button><button class="btn secondary" onclick="downloadAnswers()">Unduh Jawaban (.txt)</button><button class="btn secondary" onclick="clearAnswers()">Kosongkan Jawaban</button></div>
+</main></div>
+<footer>LKPD JavaScript · Mengenal dan Menggunakan Variable</footer>
+<script>
+const photoInput=document.getElementById('photoInput');
+const previews=document.getElementById('previews');
+photoInput.addEventListener('change',function(){
+  previews.innerHTML='';
+  [...this.files].forEach((file,index)=>{
+    if(!file.type.startsWith('image/')) return;
+    const reader=new FileReader();
+    reader.onload=e=>{
+      const card=document.createElement('div');card.className='preview';
+      const img=document.createElement('img');img.src=e.target.result;img.alt=file.name;
+      const caption=document.createElement('div');caption.className='small';caption.textContent=file.name;
+      const remove=document.createElement('button');remove.type='button';remove.textContent='Hapus pratinjau';remove.onclick=()=>card.remove();
+      card.append(img,caption,remove);previews.appendChild(card);
+    };reader.readAsDataURL(file);
+  });
+});
+function downloadAnswers(){
+  const fields=[...document.querySelectorAll('main input:not([type=file]), main textarea, main select')];
+  const lines=[];
+  fields.forEach((el,i)=>{
+    let label='';
+    const prev=el.closest('td')?.parentElement?.querySelector('td')?.innerText;
+    const lab=el.closest('label');
+    if(lab) label=lab.innerText.trim();
+    else if(prev) label=prev.trim();
+    else label=el.getAttribute('aria-label')||el.name||`Jawaban ${i+1}`;
+    let value=el.type==='radio'?(el.checked?el.value:''):el.value;
+    if(value) lines.push(label+':\\n'+value);
+  });
+  const blob=new Blob([`LKPD JavaScript — Jawaban Peserta Didik\\n\\n${lines.join('\\n\\n')}\\n`],{type:'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='jawaban-lkpd-javascript.txt';a.click();URL.revokeObjectURL(url);
+}
+function clearAnswers(){
+  if(!confirm('Yakin ingin mengosongkan semua jawaban di halaman ini?')) return;
+  document.querySelectorAll('main input:not([type=file]), main textarea').forEach(el=>{if(el.type==='radio')el.checked=false;else el.value='';});
+  document.querySelectorAll('main select').forEach(el=>el.selectedIndex=0);
+  previews.innerHTML='';photoInput.value='';
+}
+</script>
+</body>
+</html>
+<script src="javascript/console.js"></script>
+<script src="javascript/aktivitas12.js"></script>
