@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LKPD JavaScript: String, Number & Konversi Data</title>
+<style>
+:root{--bg:#f3f6f8;--card:#fff;--ink:#2f3e4a;--mute:#6b7c89;--line:#dfe6eb;--accent:#6f93a8;--soft:#e8f0f4;--ans:#eef5ef;--ansline:#cfe0d2;--ansink:#3f5a47;--code:#f0f3f5;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1d252b;--card:#252f36;--ink:#dbe3e8;--mute:#9aabb7;--line:#34414a;--accent:#8fb0c3;--soft:#2b3942;--ans:#26352b;--ansline:#38503d;--ansink:#bcd5c1;--code:#1f282e;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1d252b;--card:#252f36;--ink:#dbe3e8;--mute:#9aabb7;--line:#34414a;--accent:#8fb0c3;--soft:#2b3942;--ans:#26352b;--ansline:#38503d;--ansink:#bcd5c1;--code:#1f282e;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 "Plus Jakarta Sans","Segoe UI",system-ui,sans-serif}
+.wrap{max-width:820px;margin:0 auto;padding:32px 18px 64px}
+header{margin-bottom:22px}
+.school{color:var(--mute);font-size:.9rem;margin:0 0 6px}
+h1{font-size:1.7rem;line-height:1.25;margin:0 0 8px}
+.lead{color:var(--mute);margin:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:16px 0}
+.card h2{font-size:1.1rem;margin:0 0 12px}
+.card h2 small{display:inline-block;margin-left:8px;font-size:.78rem;font-weight:500;color:var(--mute);background:var(--soft);padding:2px 10px;border-radius:999px;vertical-align:middle}
+.id{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:14px}
+label{display:block;font-size:.85rem;color:var(--mute);margin-bottom:4px}
+input[type=text],input[type=date],textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 11px}
+input:focus,textarea:focus,button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+textarea{min-height:76px;resize:vertical}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
+button{font:inherit;font-size:.9rem;color:var(--ink);background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer}
+button:hover{border-color:var(--accent)}
+p{margin:.6em 0}
+ul,ol{margin:.4em 0;padding-left:1.3em}
+.q{margin:14px 0 6px;font-weight:600}
+pre{background:var(--code);border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow-x:auto;font:.86rem/1.55 ui-monospace,Menlo,Consolas,monospace;margin:10px 0}
+code{font:.86em ui-monospace,Menlo,Consolas,monospace;background:var(--code);padding:1px 5px;border-radius:4px}
+.ans{background:var(--ans);border:1px solid var(--ansline);color:var(--ansink);border-radius:8px;padding:10px 14px;margin:8px 0}
+.ans b{font-weight:600}
+.ans pre{background:transparent;border-color:var(--ansline);color:inherit}
+.hide-ans .ans{display:none}
+.table-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th,td{border:1px solid var(--line);padding:7px 10px;text-align:left}
+th{background:var(--soft);font-weight:600}
+td.c,th.c{text-align:center}
+.note{color:var(--mute);font-size:.88rem}
+footer{text-align:center;color:var(--mute);font-size:.85rem;margin-top:30px}
+@media(max-width:600px){.id{grid-template-columns:1fr 1fr}.id>div:first-child{grid-column:1/-1}.card{padding:16px}}
+@media print{body{background:#fff;color:#000}.bar button{display:none}.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap" id="page">
+<header>
+<p class="school">SMKN 1 Garut • Dasar-Dasar Pengembangan Perangkat Lunak dan Gim • Kelas X / Fase E • 2 × 45 menit</p>
+<h1>LKPD: String, Number & Konversi Data</h1>
+<p class="lead">Kerjakan mandiri terlebih dahulu, prediksi hasil sebelum menjalankan kode, lalu diskusikan lewat Think Pair Share. Simpan file sebagai <code>lkpd_string_number_nama.js</code>.</p>
+</header>
+ 
+<section class="card">
+<div class="id">
+<div><label for="nama">Nama</label><input type="text" id="nama" value="M. Raihan Qori K."></div>
+<div><label for="kelas">Kelas</label><input type="text" id="kelas" value="X-PPL/2"></div>
+<div><label for="absen">No. Absen</label><input type="text" id="absen" value="22"></div>
+<div><label for="tgl">Tanggal</label><input type="date" id="tgl" value="2026-11-01"></div>
+</div>
+<div class="bar">
+<button type="button" id="toggle">Sembunyikan jawaban</button>
+<button type="button" onclick="window.print()">Cetak halaman</button>
+</div>
+</section>
+ 
+<section class="card">
+<h2>Tujuan Pembelajaran</h2>
+<p>Setelah menyelesaikan LKPD ini, peserta didik mampu:</p>
+<ol>
+<li>membedakan String dan Number;</li>
+<li>menjelaskan bahwa <code>prompt()</code> menghasilkan String;</li>
+<li>menggunakan <code>Number()</code> dan <code>String()</code>;</li>
+<li>menganalisis kesalahan akibat tipe data;</li>
+<li>membuat program input dan perhitungan sederhana.</li>
+</ol>
+</section>
+ 
+<section class="card">
+<h2>Aktivitas 1 – Eksperimen 10 + 20</h2>
+<p>Jangan jalankan terlebih dahulu. Prediksikan hasil:</p>
+<pre>let a = "10";
+let b = "20";
+console.log(a + b);</pre>
+<p class="q">Apa output program?</p>
+<div class="ans"><b>Jawaban:</b> <code>1020</code></div>
+<p class="q">Mengapa hasil tersebut terjadi?</p>
+<div class="ans"><b>Jawaban:</b> Karena <code>"10"</code> dan <code>"20"</code> ditulis dengan tanda kutip, sehingga bertipe String. Pada String, operator <code>+</code> menyambung teks (konkatenasi), bukan menjumlahkan angka.</div>
+<p class="q">Apakah a dan b bertipe Number?</p>
+<div class="ans"><b>Jawaban:</b> Bukan. a dan b bertipe String.</div>
+<p class="q">Uji sekarang. Apakah prediksimu benar? Jelaskan.</p>
+<div class="ans"><b>Jawaban:</b> Ya, hasilnya <code>1020</code>, bukan <code>30</code>. Ini membuktikan bahwa nilai di dalam tanda kutip diperlakukan sebagai teks.</div>
+</section>
+ 
+<section class="card">
+<h2>Aktivitas 2 – Menemukan Tipe Data</h2>
+<pre>let nama = "Asep";
+let umur = 16;
+console.log(typeof nama);
+console.log(typeof umur);</pre>
+<div class="ans"><b>Jawaban tabel:</b>
+<div class="table-wrap"><table>
+<tr><th>Variabel</th><th>Prediksi</th><th>Hasil typeof</th><th>Kesimpulan</th></tr>
+<tr><td>nama</td><td>string</td><td>string</td><td>Teks dalam tanda kutip adalah String</td></tr>
+<tr><td>umur</td><td>number</td><td>number</td><td>Angka tanpa tanda kutip adalah Number</td></tr>
+</table></div></div>
+<p class="q">Temuan: Apa perbedaan String dan Number berdasarkan eksperimenmu?</p>
+<div class="ans"><b>Jawaban:</b> String adalah data teks yang ditulis dengan tanda kutip, dan operator <code>+</code> akan menyambungnya. Number adalah data angka tanpa tanda kutip, dan operator <code>+</code> akan menjumlahkannya.</div>
+</section>
+ 
+<section class="card">
+<h2>Aktivitas 3 – Konversi String menjadi Number</h2>
+<p>Perbaiki program agar menghasilkan 30. Gunakan <code>Number()</code>:</p>
+<pre>let a = "10";
+let b = "20";
+let hasil = __________________________;
+console.log(hasil);</pre>
+<div class="ans"><b>Jawaban:</b>
+<pre>let a = "10";
+let b = "20";
+let hasil = Number(a) + Number(b);
+console.log(hasil); // 30</pre>
+Hasil program: <b>30</b>.<br>
+<span class="note">Sebaliknya, <code>String(10)</code> mengubah angka menjadi teks <code>"10"</code>.</span></div>
+</section>
+ 
+<section class="card">
+<h2>Aktivitas 4 – Program Kasir Sederhana</h2>
+<p>Buat program yang meminta harga dan jumlah barang melalui <code>prompt()</code>, mengubah keduanya menjadi Number, lalu menghitung total harga.</p>
+<pre>let harga = Number(prompt("Masukkan harga: "));
+let jumlah = Number(prompt("Masukkan jumlah: "));
+let total = __________________________;
+console.log("Total belanja = " + total);</pre>
+<div class="ans"><b>Jawaban:</b> <code>let total = harga * jumlah;</code>
+<div class="table-wrap"><table>
+<tr><th>Input Uji</th><th>Nilai</th></tr>
+<tr><td>Harga</td><td>Rp 5.000</td></tr>
+<tr><td>Jumlah</td><td>4</td></tr>
+<tr><td>Total seharusnya</td><td>Rp 20.000</td></tr>
+<tr><td>Total program</td><td>Rp 20.000 (tampil: Total belanja = 20000)</td></tr>
+</table></div></div>
+</section>
+ 
+<section class="card">
+<h2>Tantangan – Program Hitung Nilai</h2>
+<p>Buat program dengan input nilai tugas, UTS, dan UAS. Konversikan semua input dengan <code>Number()</code>, lalu hitung rata-rata dengan rumus (tugas + UTS + UAS) / 3.</p>
+<p class="q">Algoritma saya:</p>
+<div class="ans"><b>Jawaban:</b>
+<ol>
+<li>Minta input nilai tugas, UTS, dan UAS dengan <code>prompt()</code>.</li>
+<li>Ubah ketiga input menjadi Number dengan <code>Number()</code>.</li>
+<li>Hitung rata-rata: (tugas + UTS + UAS) / 3.</li>
+<li>Tampilkan hasil rata-rata dengan <code>console.log()</code>.</li>
+</ol>
+<pre>let tugas = Number(prompt("Nilai tugas:"));
+let uts = Number(prompt("Nilai UTS:"));
+let uas = Number(prompt("Nilai UAS:"));
+ 
+let rataRata = (tugas + uts + uas) / 3;
+console.log("Rata-rata = " + rataRata);</pre>
+Contoh: tugas 80, UTS 75, UAS 85 → rata-rata 80.</div>
+</section>
+ 
+<section class="card">
+<h2>Think – Pair – Share</h2>
+<p class="q">1. Mengapa prompt() perlu dikonversi jika hasilnya ingin dihitung?</p>
+<div class="ans"><b>Jawaban:</b> Karena <code>prompt()</code> selalu menghasilkan String. Tanpa konversi, operator <code>+</code> akan menyambung teks, sehingga hasil perhitungan menjadi salah.</div>
+<p class="q">2. Apa perbedaan "10" dengan 10?</p>
+<div class="ans"><b>Jawaban:</b> <code>"10"</code> adalah String (teks) dan <code>10</code> adalah Number (angka). <code>"10" + "10"</code> menghasilkan <code>"1010"</code>, sedangkan <code>10 + 10</code> menghasilkan <code>20</code>.</div>
+<p class="q">3. Apa yang terjadi jika lupa Number()?</p>
+<div class="ans"><b>Jawaban:</b> Input dianggap teks. Penjumlahan menjadi penyambungan teks (misalnya <code>"10" + "20"</code> menjadi <code>"1020"</code>), sehingga hasil tidak sesuai harapan.</div>
+<p class="q">Pair: Bandingkan jawaban dengan teman. Apakah sama? Mengapa bisa berbeda?</p>
+<div class="ans"><b>Jawaban:</b> Inti jawabannya sama, hanya susunan kalimatnya yang bisa berbeda karena setiap orang memakai contoh dan bahasa sendiri.</div>
+<p class="q">Share: Sampaikan satu temuan penting kepada kelas.</p>
+<div class="ans"><b>Jawaban:</b> Hasil <code>prompt()</code> selalu String, jadi harus diubah dengan <code>Number()</code> sebelum dihitung.</div>
+</section>
+ 
+<section class="card">
+<h2>Refleksi 3–2–1 <small>Sudah diisi</small></h2>
+<p class="q">3 hal yang saya pahami:</p>
+<div class="ans">
+<ol>
+<li>Perbedaan String dan Number.</li>
+<li><code>prompt()</code> selalu menghasilkan String.</li>
+<li>Cara mengubah String menjadi Number dengan <code>Number()</code>.</li>
+</ol></div>
+<p class="q">2 hal yang masih membingungkan:</p>
+<div class="ans">
+<ol>
+<li>Kapan harus memakai <code>String()</code> dalam program.</li>
+<li>Mengapa operator <code>-</code> dan <code>*</code> tetap bisa menghitung teks angka, tetapi <code>+</code> tidak.</li>
+</ol></div>
+<p class="q">1 hal yang ingin saya coba pada program berikutnya:</p>
+<div class="ans">Membuat kalkulator sederhana yang menghitung dua angka dari input pengguna.</div>
+</section>
+ 
+<section class="card">
+<h2>Penilaian Diri <small>Sudah diisi</small></h2>
+<div class="table-wrap"><table>
+<tr><th>Pernyataan</th><th class="c">Ya</th><th class="c">Belum</th></tr>
+<tr><td>Saya dapat membedakan String dan Number.</td><td class="c"><input type="radio" name="p1" checked aria-label="Ya"></td><td class="c"><input type="radio" name="p1" aria-label="Belum"></td></tr>
+<tr><td>Saya memahami prompt() menghasilkan String.</td><td class="c"><input type="radio" name="p2" checked aria-label="Ya"></td><td class="c"><input type="radio" name="p2" aria-label="Belum"></td></tr>
+<tr><td>Saya dapat menggunakan Number().</td><td class="c"><input type="radio" name="p3" checked aria-label="Ya"></td><td class="c"><input type="radio" name="p3" aria-label="Belum"></td></tr>
+<tr><td>Saya dapat menggunakan String().</td><td class="c"><input type="radio" name="p4" checked aria-label="Ya"></td><td class="c"><input type="radio" name="p4" aria-label="Belum"></td></tr>
+<tr><td>Saya dapat menemukan kesalahan tipe data.</td><td class="c"><input type="radio" name="p5" checked aria-label="Ya"></td><td class="c"><input type="radio" name="p5" aria-label="Belum"></td></tr>
+<tr><td>Saya dapat membuat program input dan hitung sederhana.</td><td class="c"><input type="radio" name="p6" checked aria-label="Ya"></td><td class="c"><input type="radio" name="p6" aria-label="Belum"></td></tr>
+</table></div>
+</section>
+ 
+<footer>SMKN 1 Garut • Dasar-Dasar Pengembangan Perangkat Lunak dan Gim • JavaScript</footer>
+</div>
+<script>
+(function(){
+var page=document.getElementById("page"),btn=document.getElementById("toggle");
+btn.addEventListener("click",function(){
+var h=page.classList.toggle("hide-ans");
+btn.textContent=h?"Tampilkan jawaban":"Sembunyikan jawaban";
+});
+})();
+</script>
+</body>
+</html>
